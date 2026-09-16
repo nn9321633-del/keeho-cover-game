@@ -581,6 +581,21 @@ body{
 }
 #resultBackBtn:active{transform:scale(.98)}
 
+
+.resultQuote{
+  min-height:0;
+  margin-top:10px;
+  padding:0 8px;
+  font-size:14px;
+  line-height:1.45;
+  font-weight:800;
+  color:#555;
+  word-break:keep-all;
+}
+.resultQuote:empty{
+  display:none;
+}
+
 </style>
 </head>
 <body>
@@ -604,6 +619,7 @@ body{
    <div class="resultCard">
      <div id="resultState" class="resultState">RESULT</div>
      <div id="resultSong" class="resultSong">SONG</div>
+     <div id="resultQuote" class="resultQuote"></div>
      <div class="resultScoreLabel">SCORE</div>
      <div id="resultScore" class="resultScore">0</div>
      <div class="resultStats">
@@ -738,6 +754,7 @@ const gameOverEl=document.querySelector('#gameOver');
 const resultScreen=document.querySelector('#resultScreen');
 const resultState=document.querySelector('#resultState');
 const resultSong=document.querySelector('#resultSong');
+const resultQuote=document.querySelector('#resultQuote');
 const resultScore=document.querySelector('#resultScore');
 const resultPerfect=document.querySelector('#resultPerfect');
 const resultGreat=document.querySelector('#resultGreat');
@@ -840,6 +857,7 @@ function grade(diff){
  return null;
 }
 
+const gameOverQuotes=["긴장돼", "저 래퍼 아니에요", "What's going on", "니네 뭔데 나를 평가해?", "난 잘 했어.", "짜증나", "감동도 없고 웃기지도 않고 섹시하지도 않고 아무 것도 없어", "Young money", "아직 뇌 시동이 안 걸었어", "감히 내가 안 섹시하다고?", "나 섹시하잖아", "하... 멋을 모르는 사람들 지겨워", "뭐가 문제인지 모르겠어요 제 탓은 아닌 거 같아요", "똑똑하고 섹시한 사람이 되어라", "1인분 할 수 있죠 1인인데"];
 function showResult(stateText){
   running=false;
   gameAudio.pause();
@@ -848,6 +866,12 @@ function showResult(stateText){
 
   resultState.textContent=stateText;
   resultSong.textContent=selectedSongTitle || '';
+  if(stateText==='GAME OVER'){
+    const randomIndex=Math.floor(Math.random()*gameOverQuotes.length);
+    resultQuote.textContent=gameOverQuotes[randomIndex];
+  }else{
+    resultQuote.textContent='';
+  }
   resultScore.textContent=String(score).padStart(7,'0');
   resultPerfect.textContent=perfectCount;
   resultGreat.textContent=greatCount;
@@ -957,7 +981,7 @@ function loop(now){
  if(running && !gameAudio.ended){
   requestAnimationFrame(loop);
  }else if(running){
-  showResult('RESULT');
+  showResult('SUCCESS');
  }
 }
 
