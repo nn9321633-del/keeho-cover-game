@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>Keeho cover</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -68,7 +68,7 @@ body{
  pointer-events:none;
 }
 #notes{position:absolute;inset:0;z-index:6;overflow:hidden}
-.note{position:absolute;height:18px;border-radius:10px;background:white;box-shadow:0 0 10px #fff,0 0 18px #65dcff;transform:translateX(-50%);pointer-events:none}
+.note{position:absolute;height:18px;border-radius:10px;background:white;box-shadow:0 0 10px #fff,0 0 18px #ff2faf;transform:translateX(-50%);pointer-events:none}
 .note.hold{
  position:absolute;
  background:none;
@@ -122,8 +122,8 @@ body{
 #pads{position:absolute;z-index:10;left:0;right:0;bottom:max(3%,env(safe-area-inset-bottom));height:15%;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
 .pad{border-left:1px solid rgba(255,88,190,.55);border-right:1px solid rgba(255,88,190,.55);border-top:1px solid rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.18);background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,47,175,.28));box-shadow:inset 0 0 16px rgba(255,47,175,.18);border-radius:0}
 .pad.active{background:linear-gradient(180deg,rgba(255,210,235,.84),rgba(255,127,209,.95));box-shadow:0 0 24px rgba(255,127,209,.98),inset 0 0 18px rgba(255,255,255,.82)}
-#judge{position:absolute;z-index:15;left:0;right:0;bottom:22%;text-align:center;font-weight:900;font-size:28px;color:#fff;text-shadow:0 0 8px #5ff,0 0 16px #f5f;opacity:0}
-#combo{position:absolute;z-index:15;left:50%;top:46%;transform:translate(-50%,-50%);color:white;text-align:center;text-shadow:0 0 9px #5ff;pointer-events:none}
+#judge{position:absolute;z-index:15;left:0;right:0;bottom:22%;text-align:center;font-weight:900;font-size:28px;color:#fff;text-shadow:0 0 8px #ff2faf,0 0 16px #f5f;opacity:0}
+#combo{position:absolute;z-index:15;left:50%;top:46%;transform:translate(-50%,-50%);color:white;text-align:center;text-shadow:0 0 9px #ff2faf;pointer-events:none}
 #comboNum{font-size:38px;font-weight:900}
 #gameOver{position:absolute;z-index:28;inset:0;display:none;align-items:center;justify-content:center;background:#050817aa;color:#fff;text-align:center}
 #gameOver .box{font-weight:900;font-size:32px;text-shadow:0 0 12px #ff3a9f}
@@ -1605,6 +1605,172 @@ button, .pad, .noteSettingsBtn, #noteSettingsOpen, .mainBtn{
   background-repeat:no-repeat !important;
 }
 
+
+/* === iOS SAFARI ZOOM LOCK + SONG LIST SCROLL === */
+html, body{
+  width:100%;
+  height:100%;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  -webkit-text-size-adjust:100% !important;
+  text-size-adjust:100% !important;
+}
+
+body, #game{
+  touch-action:none !important;
+  -webkit-user-select:none !important;
+  user-select:none !important;
+  -webkit-touch-callout:none !important;
+}
+
+#highway, #notes, #pads, .pad{
+  touch-action:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+button{
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+/* IMPORTANT: song-select list must still scroll */
+.songList{
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  -webkit-overflow-scrolling:touch !important;
+  touch-action:pan-y !important;
+  overscroll-behavior-y:contain !important;
+}
+
+
+/* === ALL NOTES PINK === */
+.note{
+  background:#ff2faf !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+  box-shadow:0 0 10px #fff,0 0 18px #ff2faf !important;
+}
+.holdHead{
+  background:#ff2faf !important;
+  border:1px solid rgba(255,255,255,.9) !important;
+  box-shadow:0 0 10px #fff,0 0 18px #ff2faf !important;
+}
+.holdEnd{
+  background:#ff2faf !important;
+  border:1px solid rgba(255,255,255,.85) !important;
+  box-shadow:0 0 5px rgba(255,255,255,.9),0 0 10px rgba(255,47,175,.75) !important;
+}
+.holdTail{
+  background:linear-gradient(
+    180deg,
+    rgba(255,47,175,.03) 0%,
+    rgba(255,47,175,.10) 25%,
+    rgba(255,47,175,.22) 58%,
+    rgba(255,47,175,.38) 100%
+  ) !important;
+  box-shadow:0 0 10px rgba(255,47,175,.22) !important;
+}
+
+
+/* === FORCE ALL SONG NOTES TO THE SAME PINK === */
+#game,
+#game.note-theme-pink,
+#game.note-theme-blue,
+#game.note-theme-purple{
+  --note-main:#ff2faf !important;
+  --note-soft:#ff79d4 !important;
+  --note-glow:#ff2faf !important;
+  --note-secondary:#ff2faf !important;
+}
+
+.note,
+.note:not(.hold){
+  background:linear-gradient(180deg,#ffd5ee 0%,#ff8bd2 55%,#ff2faf 100%) !important;
+  border:1px solid rgba(255,255,255,.92) !important;
+  box-shadow:0 0 6px #fff,0 0 14px #ff2faf,0 0 24px #ff2faf !important;
+}
+.holdHead{
+  background:#ff2faf !important;
+  border:1px solid rgba(255,255,255,.92) !important;
+  box-shadow:0 0 7px #fff,0 0 14px #ff2faf,0 0 26px #ff2faf !important;
+}
+.holdEnd{
+  background:#ff2faf !important;
+  border:1px solid rgba(255,255,255,.92) !important;
+  box-shadow:0 0 6px #fff,0 0 12px #ff2faf,0 0 20px #ff2faf !important;
+}
+.holdTail{
+  background:linear-gradient(
+    180deg,
+    rgba(255,47,175,.05) 0%,
+    rgba(255,47,175,.16) 30%,
+    rgba(255,47,175,.30) 65%,
+    rgba(255,47,175,.48) 100%
+  ) !important;
+  box-shadow:inset 0 0 18px rgba(255,255,255,.08),0 0 16px rgba(255,47,175,.28) !important;
+}
+
+
+/* === GAMEPLAY TEXT BACK TO WHITE === */
+#judge,
+#combo,
+#comboNum,
+#hud,
+#hud .small,
+#hud .big{
+  color:#fff !important;
+  text-shadow:0 0 7px rgba(255,255,255,.95),0 0 14px rgba(255,255,255,.55) !important;
+}
+
+
+/* === WHITE TEXT + SOFT BLUE GLOW ONLY === */
+#judge,
+#combo,
+#comboNum,
+#hud,
+#hud .small,
+#hud .big{
+  color:#fff !important;
+  text-shadow:
+    0 0 4px rgba(255,255,255,.95),
+    0 0 9px rgba(92,210,255,.62),
+    0 0 18px rgba(92,210,255,.28) !important;
+}
+
+
+/* === NORMAL NOTE GRADIENT === */
+.note{
+  background:linear-gradient(
+    180deg,
+    #ffd8ef 0%,
+    #ff7dcc 52%,
+    #ff2faf 100%
+  ) !important;
+  border:1px solid rgba(255,255,255,.92) !important;
+  box-shadow:
+    0 0 6px rgba(255,255,255,.95),
+    0 0 12px rgba(255,47,175,.78),
+    0 0 20px rgba(255,47,175,.38) !important;
+}
+
+
+/* === SMOOTHER WHITE-TO-PINK GRADIENT FOR ALL NORMAL NOTES === */
+.note{
+  background:linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #fff8fc 18%,
+    #ffe6f4 40%,
+    #ffb9df 66%,
+    #ff6fc3 86%,
+    #ff2faf 100%
+  ) !important;
+  border:1px solid rgba(255,255,255,.96) !important;
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.72),
+    0 0 6px rgba(255,255,255,.95),
+    0 0 14px rgba(255,47,175,.78),
+    0 0 24px rgba(255,47,175,.42) !important;
+}
+
 </style>
 </head>
 <body>
@@ -2339,6 +2505,77 @@ if(noteSettingsExit){
 
 
 
+
+
+/* === iOS Safari zoom prevention while preserving song-list scrolling === */
+(function lockSafariZoomKeepSongScroll(){
+  const songList = document.querySelector('.songList');
+
+  function insideSongList(target){
+    return !!(songList && target && songList.contains(target));
+  }
+
+  /* Safari-specific pinch gesture events */
+  ['gesturestart','gesturechange','gestureend'].forEach(type=>{
+    document.addEventListener(type, function(e){
+      if(e.cancelable) e.preventDefault();
+    }, {passive:false});
+  });
+
+  /* Prevent multi-touch pinch everywhere.
+     Single-finger scrolling inside songList remains allowed. */
+  document.addEventListener('touchmove', function(e){
+    if(e.touches && e.touches.length > 1){
+      if(e.cancelable) e.preventDefault();
+      return;
+    }
+
+    /* allow one-finger vertical scrolling in song selection */
+    if(insideSongList(e.target)) return;
+
+    /* block page dragging/zoom-like movement elsewhere */
+    if(e.cancelable) e.preventDefault();
+  }, {passive:false});
+
+  /* Prevent double-tap smart zoom, except do not break normal song-list scrolling */
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(e){
+    const now = Date.now();
+
+    if(!insideSongList(e.target) && now - lastTouchEnd <= 320){
+      if(e.cancelable) e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, {passive:false});
+
+  document.addEventListener('dblclick', function(e){
+    if(e.cancelable) e.preventDefault();
+  }, {passive:false});
+
+  /* Keep the visual viewport anchored if Safari tries to shift it */
+  function resetViewport(){
+    if(document.querySelector('#songScreen')?.classList.contains('hidden') === false){
+      /* while song select is open, don't interfere with its inner scroll */
+      window.scrollTo(0,0);
+      return;
+    }
+    window.scrollTo(0,0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+
+  window.addEventListener('orientationchange', ()=>setTimeout(resetViewport,100));
+  window.addEventListener('resize', resetViewport);
+
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', resetViewport);
+    window.visualViewport.addEventListener('scroll', function(){
+      if(window.visualViewport.scale > 1.01){
+        resetViewport();
+      }
+    });
+  }
+})();
 
 </script>
 </body></html>
